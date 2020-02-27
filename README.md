@@ -170,7 +170,7 @@ MIDDLEWARE = [
 
 。。。。图7
 
-Grafana社区
+Grafana社区非常的活跃，提供了非常多的dashboards面板供你下载，其中许多就是基于Prometheus数据源。如果你的被监控组件是常见的那种，那么你可以非常快的搭建起来。
 
 
 ## 结论
