@@ -17,35 +17,35 @@
 
 ## Prometheus是如何工作的？
 作为监控服务，Prometheus监控每一项具体的事，可以是整个Linux服务器，可以是单独的一个Apache服务器，可以单单是一个进程，一个数据库，亦或是其他任何你想监控的系统单元。
-在Prometheus世界里，有两件事要明确，一是Prometheus服务本身，二是
-监控目标
+在Prometheus世界里，有两件事要明确，一是Prometheus服务本身，二是监控目标。
 
 
 。。。图2
 
 
-为了能够使用Prometheus监控你的服务，你的服务需要**通过endpoint暴露给Prometheus**，暴露的endpoint里，会有一组当前的监控数据名字和其值。
+为了能够使用Prometheus监控你的服务，你的服务需要**通过endpoint暴露给Prometheus**，暴露的endpoint里，会有一组监控数据名字和其当前的值。
 
 为了方便用户设置endpoint和暴露监控数据，Prometheus还提供了了**一组客户端库**。
 
-Prometheus官方支持的客户端库有这4种语言：**Go， Java / Scala， Python， 和 Ruby**。
+Prometheus官方支持的客户端库有这4种语言：**Go，Java/Scala，Python和Ruby**。
 
 Prometheus本身提供一个简单的UI界面，你可以通过Prometheus支持的查询语言PromQL，亲自手写一个，去查询你想要的监控数据。
 
-在这里，我们不用Prometheus自带的UI界面，我们使用上面提及的**Grafana**，Grafana是来自第三方的组件，作为展现层，**将存储在Prometheus时序数据库里的数据可视化**。
+在这里，我们使用上面提及的**Grafana**，Grafana是来自第三方的组件，作为展现层，**将存储在Prometheus时序数据库里的数据可视化**。
 
-你不需要直接编写PromQL查询语句，你可以使用Grafana UI面板从Prometheus服务器那边查询到监控数据，并且把它们在Grafana上展现出来。我们马上动手试一试。
+你不需要编写PromQL查询语句，直接与Prometheus打交道，你可以使用Grafana UI面板，从Prometheus服务器那边查询到监控数据，并且把它们在Grafana上展现出来。我们马上动手试一试。
 
 现在，我们开始吧。
 
 
-## 第一步: 把你的Prometheus和Grafana跑起来
-在此之前，你需要先安装[Docker](https://docs.docker.com/engine/docker-overview/)。在这个教程里，我会使用Docker镜像，但是你可以用其他方式。
+## 第1步: 把你的Prometheus和Grafana跑起来
 
-Docker容器镜像是一种轻量、独立、可执行的软件打包方式，它将软件所需要的一切：代码，运行时，系统工具，系统库和设置，都打包在一起。想要或得更多关于Docker的信息，你可以点击连接：https://docs.docker.com/engine/docker-overview/
+在此之前，你需要先安装[Docker](https://docs.docker.com/engine/docker-overview/)。在这个教程里，我会使用Docker镜像，但是你也可以用其他方式。
+
+Docker容器镜像是一种轻量、独立、可执行的软件打包方式，它将所需要的一切：代码，运行时，系统工具，系统库和设置，都打包在一起。想要活得更多关于Docker的信息，你可以点击连接：https://docs.docker.com/engine/docker-overview/
 
 最简单的方式去运行一个Prometheus服务就是用Prometheus的Docker镜像。
-这个镜像，由Prometheus社区维护：https://hub.docker.com/r/prom/prometheus/， 你可以直接从docker hub上拉取这个镜像
+这个镜像，由Prometheus社区维护：https://hub.docker.com/r/prom/prometheus/，你可以直接从docker hub上拉取这个镜像
 
 为了能够让Grafana跑起来，你可以用下面的这个镜像：[grafana/grafana:6.5.2](https://hub.docker.com/r/grafana/grafana)
 
@@ -71,10 +71,8 @@ grafana:
  — 3060:3000
 ```
 
-
-## Step 2: Configure your Prometheus server
-
 ## 第2步：配置你的Prometheus
+
 为了能够让Prometheus跑起来，你需要创建一份prometheus.yml文件。
 
 我把这个文件放在了./prometheus/目录下，同时这个目录里也放了刚刚创建的docker-compose.monitoring.yml文件
@@ -95,7 +93,7 @@ scrape_configs:
 ```
 
 `host.docker.internal`用来获取目标监控对象的IP地址。你可以从这里找到更多的信息：https://docs.docker.com/docker-for-windows/networking。
-这里的url是仅用作开发目的的。如果你面对的是在生产环境中部署好的应用，那么在生产环境中，你也应该拥有一个prometheus服务器。并且你需要修改相应配置文件prometheus.yml，将这个`host.docker.internal`改成生产环境中目标机器的域名地址，比如`your-prod-application.com`
+这里的url是仅用作开发目的。如果你面对的是在生产环境中部署好的应用，那么在生产环境中，你也应该拥有一个prometheus服务器。并且你需要修改相应配置文件prometheus.yml，将这个`host.docker.internal`改成生产环境中目标机器的域名地址，比如`your-prod-application.com`
 
 
 为了能够让Prometheus和Grafana跑起来，你需要在你的命令行终端，敲上这个命令：
@@ -111,15 +109,11 @@ scrape_configs:
 此时此刻，endpoint/metrics还不存在，这也是为什么目标返回404错误。我们将在下一步看到，如何在我们的Django里，创建一个endpoint/metrics
 
 
+## 第3步: 添点东西，暴露你Django应用的监控数据
 
+Prometheus社区已经为许多技术栈（Nodejs，Spring-Boot，Django等等。。）准备好了许多的开源的第三方库，你可以直接拿来使用。
 
-
-
-
-## Step 3: 添点东西，暴露你Django应用的监控数据
-Prometheus社区已经为许多技术栈（Nodejs， Spring-Boot， Django 等等。。）准备好许多的开源的第三方库，你可以直接拿来使用。
-
-其中之一就有[Django-prometheus](https://github.com/korfuri/django-prometheus/)
+其中之一就有[Django-prometheus](https://github.com/korfuri/django-prometheus/)，它可以将Django的监控数据暴露给Prometheus。
 
 在你的django项目里安装django-prometheus:
 
@@ -153,12 +147,13 @@ MIDDLEWARE = [
 。。。图5
 
 
-### 第4部： 创建你的Grafana面板
+## 第4步：创建你的Grafana面板
+
 现在你已经有了一个活着的Prometheus targets对象，你可以用Grafana创建让人兴奋的监控面板。
 
 输入http://localhost:3060，你可以看到Grafana。
 
-在数据源这边，添加你的Prometheus实例。（如下GIF动图显示）
+添加你的Prometheus实例作为一个数据源（如下GIF动图显示）
 
 请点击左边的Configuration配置项，然后点击Data Sources数据源，然后点击添加一个数据源，然后输入名字，输入你数据源的url地址。
 
@@ -168,12 +163,15 @@ MIDDLEWARE = [
 一旦上面的完成，你就可以创建一个新的监控面板：
 
 1. 点击graph title，然后点击“Edit”
-2. 在“Metrics”tab页，选择你的Prometheus数据源
+2. 在“Metrics”tab页，选择你的Prometheus数据源（页面右下角）
 3. 在“Query”一栏，输入任何的Prometheus查询表达式，并且使用“Metric”选项去完成补全
 
 可以的话，你可以用一些label标签去完成进一步的过滤
 
 。。。。图7
+
+Grafana社区
+
 
 ## 结论
 
