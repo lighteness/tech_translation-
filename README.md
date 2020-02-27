@@ -1,10 +1,10 @@
-# 教你如何在10分钟内用Prometheus和Grafana来监控你的Django应用
+# 教你如何在10分钟内用Prometheus和Grafana监控你的Django应用
 
-在这篇10分钟的教程里，我将教你如何用Prometheus和Grafana监控一个Django应用。按照教程走完，你将获得一个如下的监控面板：
+在这篇10分钟的教程里，**我将教你如何用Prometheus和Grafana监控一个Django应用**。你将获得如下的**监控面板**：
 
-。。。
+。。。图1
 
-[Prometheus](https://prometheus.io/)是一个监控解决方案，它能从目标端那边收集监控数据（metrics）。Prometheus是一个开源项目，最初从SoundCloud公司内部发起，这所公司是由几个前Google工程师所创建。Prometheus的初衷是为了能够监控高度动态的容器环境。自从2012年它问世以来，许多公司和组织就开始采纳它。
+**[Prometheus](https://prometheus.io/)是一个监控解决方案**，它能从目标端那边收集**监控数据（metrics）**。Prometheus是一个开源项目，最初从SoundCloud公司内部发起，这所公司是由几个前Google工程师所创建。Prometheus的初衷是为了能够监控高度动态的容器环境。自从2012年它问世以来，许多公司和组织就开始采纳它。
 
 [Grafana](https://grafana.com/)是一个能够展示统计图像的Web，它有着非常优秀的展示能力，并且图表、面板都可配置化。当你有了数据，你可以通过Grafana来展示统计，它支持非常多的数据来源，当然也支持数据来源自Prometheus。
 
@@ -19,7 +19,7 @@
 监控目标
 
 
-。。。图
+。。。图2
 
 
 为了能够使用Prometheus监控你的服务，你的服务需要**通过endpoint暴露给Prometheus**，暴露的endpoint里，会有一组当前的监控数据名字和其值。
