@@ -4,9 +4,9 @@
 
 。。。图1
 
-**[Prometheus](https://prometheus.io/)是一个监控解决方案**，它能从目标端那边收集**监控数据（metrics）**。Prometheus是一个开源项目，最初从SoundCloud公司内部发起，这所公司是由几个前Google工程师所创建。Prometheus的初衷是为了能够监控高度动态的容器环境。自从2012年它问世以来，许多公司和组织就开始采纳它。
+**[Prometheus](https://prometheus.io/)是一个监控解决方案**，它能从目标端那边收集**监控数据（metrics）**。Prometheus是一个**开源项目**，最初从SoundCloud公司内部发起，这所公司是由几个前Google工程师所创建。Prometheus的初衷是为了能够监控高度动态的容器环境。自从2012年它问世以来，许多公司和组织就开始采纳它。
 
-[Grafana](https://grafana.com/)是一个能够展示统计图像的Web，它有着非常优秀的展示能力，并且图表、面板都可配置化。当你有了数据，你可以通过Grafana来展示统计，它支持非常多的数据来源，当然也支持数据来源自Prometheus。
+**[Grafana](https://grafana.com/)是一个能够展示统计图像的Web**，它有着非常优秀的展示能力，并且图表、面板都可配置化。当你有了数据，你可以通过Grafana来展示统计，它支持非常多的数据来源，当然也支持数据来源自Prometheus。
 
 
 ## 为什么我选择用Prometheus搭配Grafana来监控我的Django应用？
@@ -30,7 +30,7 @@ Prometheus官方支持的客户端库有这4种语言：**Go， Java / Scala， 
 
 Prometheus本身提供一个简单的UI界面，你可以通过Prometheus支持的查询语言PromQL，亲自手写一个，去查询你想要的监控数据。
 
-在这里，我们不用Prometheus自带的UI界面，我们使用上面提及的**Grafana**，Grafana是来自第三方的组件，作为展现层，将存储在Prometheus时序数据库里的数据可视化。
+在这里，我们不用Prometheus自带的UI界面，我们使用上面提及的**Grafana**，Grafana是来自第三方的组件，作为展现层，**将存储在Prometheus时序数据库里的数据可视化**。
 
 你不需要直接编写PromQL查询语句，你可以使用Grafana UI面板从Prometheus服务器那边查询到监控数据，并且把它们在Grafana上展现出来。我们马上动手试一试。
 
@@ -103,7 +103,7 @@ scrape_configs:
 那么你将在浏览器里输入localhost:9090后，看到下面的东西
 
 
-。。。。图片
+。。。。图片4
 
 
 此时此刻，endpoint/metrics还不存在，这也是为什么目标返回404错误。我们将在下一步看到，如何在我们的Django里，创建一个endpoint/metrics
@@ -148,7 +148,7 @@ MIDDLEWARE = [
 
 现在你可以到，你的prometheus targets对象会是"UP"状态：http://localhost:9090/targets
 
-。。。图
+。。。图5
 
 
 ### 第4部： 创建你的Grafana面板
@@ -160,7 +160,7 @@ MIDDLEWARE = [
 
 请点击左边的Configuration配置项，然后点击Data Sources数据源，然后点击添加一个数据源，然后输入名字，输入你数据源的url地址。
 
-。。。。
+。。。。图6
 
 
 一旦上面的完成，你就可以创建一个新的监控面板：
@@ -171,7 +171,7 @@ MIDDLEWARE = [
 
 可以的话，你可以用一些label标签去完成进一步的过滤
 
-。。。。
+。。。。图7
 
 ## 结论
 
